@@ -49,6 +49,34 @@ It’s a simple project, but it helped me understand how React behaves in real s
 
 ```bash
 git clone https://github.com/AyanXDeveloper/Todo-Application-Using-React.git
-$ exit
+```
 
 2. Navigate into the project folder
+
+```bash
+cd Todo-Application-Using-React
+```
+
+3. Install dependencies
+
+```bash
+npm install
+```
+
+4. Start the development server
+
+```bash
+npm start
+```
+
+---
+
+## 📌 What I Learned
+
+- How to manage state in React
+- Handling user input and events properly
+- Updating UI dynamically based on state changes
+- Writing cleaner and more structured code
+- Understanding how React components work together
+
+This project helped me focus more on understanding logic rather than just completing the UI.
