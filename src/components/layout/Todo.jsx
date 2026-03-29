@@ -1,35 +1,43 @@
-
-import { useState } from 'react'
+import { useState } from "react"
+import Input from "../ui/Input"
+import Swal from "sweetalert2"
 
 const Todo = () => {
+
+  const [input, setInput] = useState("")
   const [todos, setTodos] = useState([])
-  const [input, setInput] = useState('')
   const [editId, setEditId] = useState(null)
   const [editText, setEditText] = useState('')
 
-  // Add new todo
+  // Add Todo Function
   const addTodo = () => {
     if (input.trim()) {
+
+      if (todos.some(todo => todo.text === input.trim())) {
+        Swal.fire({
+          title: "Task Already Exists",
+          text: "This task is already in your list.",
+          icon: "warning"
+        })
+        setInput('')
+        return
+      }
+
       const newTodo = {
         id: Date.now(),
         text: input,
         completed: false
       }
+
       setTodos([...todos, newTodo])
       setInput('')
+      console.log(todos)
     }
   }
 
   // Delete todo
   const deleteTodo = (id) => {
     setTodos(todos.filter(todo => todo.id !== id))
-  }
-
-  // Toggle completed status
-  const toggleComplete = (id) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, completed: !todo.completed } : todo
-    ))
   }
 
   // Start editing
@@ -49,7 +57,14 @@ const Todo = () => {
     }
   }
 
-  // Handle Enter key for adding todo
+  // Toggle completed status
+  const toggleComplete = (id) => {
+    setTodos(todos.map(todo =>
+      todo.id === id ? { ...todo, completed: !todo.completed } : todo
+    ))
+  }
+
+  // Enter Key Press Handler
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       addTodo()
@@ -58,48 +73,31 @@ const Todo = () => {
 
   return (
     <>
-      <div className="w-full h-screen flex justify-center items-center align-middle bg-gradient-to-tl from-[#431264] to-[#202D73]">
-        <div className="bg-white w-2/5 h-5/6 rounded-2xl px-10 py-12 shadow-lg overflow-y-auto">
+      <div className="w-full min-h-screen flex justify-center items-center align-middle bg-gradient-to-tl from-[#431264] to-[#202D73] p-4 sm:p-0">
+        <div className="bg-white w-full sm:w-4/5 md:w-3/5 lg:w-2/5 max-h-screen md:max-h-5/6 rounded-2xl px-6 sm:px-10 py-8 sm:py-12 shadow-lg overflow-y-auto">
           <div className="flex flex-col gap-6">
-            <h1 className="text-[#01216D] text-3xl font-bold">To-Do List 📝</h1>
+
+            <h1 className="text-[#01216D] text-2xl sm:text-3xl font-bold">To-Do List 📝</h1>
 
             {/* Input Section */}
-            <div className="flex gap-3">
-              <input
-                type="text"
-                placeholder="add your task here"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={handleKeyPress}
-                className="flex-1 px-4 py-3 bg-gray-100 rounded-full focus:outline-none focus:ring-2 focus:ring-[#FF6B5B] placeholder-gray-400"
-              />
-              <button
-                onClick={addTodo}
-                className="px-8 py-3 bg-[#FF6B5B] text-white rounded-full font-semibold hover:bg-[#FF5A47] transition"
-              >
-                Add
-              </button>
-            </div>
+            <Input onClick={() => { addTodo() }} value={input} onChange={(e) => setInput(e.target.value)} onKeyPress={handleKeyPress} />
 
             {/* Todo List */}
-            <div className="flex flex-col gap-3 max-h-96 overflow-y-auto">
-              {todos.length === 0 ? (
-                <p className="text-center text-gray-400 py-8">No tasks yet. Add one to get started!</p>
-              ) : (
-                todos.map((todo) => (
-                  <div
-                    key={todo.id}
-                    className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition group"
-                  >
+            <div className="flex flex-col gap-3 max-h-64 sm:max-h-96 overflow-y-auto">
+              {todos.length === 0
+                ? <p className="text-center text-gray-400 py-8">No tasks yet. Add one to get started!</p>
+                : todos.map((todo) => (
+                  <div key={todo.id} className="flex items-center gap-2 sm:gap-3 p-2 sm:p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition group flex-wrap sm:flex-nowrap">
+
                     {/* Checkbox */}
                     <input
                       type="checkbox"
                       checked={todo.completed}
+                      className="w-4 h-4 sm:w-5 sm:h-5 cursor-pointer accent-[#FF6B5B]"
                       onChange={() => toggleComplete(todo.id)}
-                      className="w-5 h-5 cursor-pointer accent-[#FF6B5B]"
                     />
 
-                    {/* Todo Text or Edit Input */}
+                    {/* Todo Text */}
                     {editId === todo.id ? (
                       <input
                         type="text"
@@ -114,17 +112,16 @@ const Todo = () => {
                       />
                     ) : (
                       <span
-                        className={`flex-1 ${
-                          todo.completed
+                        className={`flex-1 ${todo.completed
                             ? 'line-through text-gray-400'
                             : 'text-gray-700'
-                        }`}
+                          }`}
                       >
                         {todo.text}
                       </span>
                     )}
 
-                    {/* Action Buttons */}
+                    {/* Todo List Buttons */}
                     <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition">
                       {editId === todo.id ? (
                         <button
@@ -149,8 +146,8 @@ const Todo = () => {
                       </button>
                     </div>
                   </div>
-                ))
-              )}
+                ))}
+
             </div>
           </div>
         </div>
