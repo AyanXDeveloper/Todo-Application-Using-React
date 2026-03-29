@@ -112,7 +112,7 @@ const Todo = () => {
                       />
                     ) : (
                       <span
-                        className={`flex-1 ${todo.completed
+                        className={`flex-1 text-lg ${todo.completed
                             ? 'line-through text-gray-400'
                             : 'text-gray-700'
                           }`}
@@ -126,21 +126,21 @@ const Todo = () => {
                       {editId === todo.id ? (
                         <button
                           onClick={() => updateTodo(todo.id)}
-                          className="px-3 py-1 bg-green-500 text-white rounded text-sm hover:bg-green-600"
+                          className="px-3 py-1 cursor-pointer bg-green-500 text-white rounded text-sm hover:bg-green-600"
                         >
                           Save
                         </button>
                       ) : (
                         <button
                           onClick={() => startEdit(todo.id, todo.text)}
-                          className="px-3 py-1 bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
+                          className="px-3 py-1 cursor-pointer bg-blue-500 text-white rounded text-sm hover:bg-blue-600"
                         >
                           Edit
                         </button>
                       )}
                       <button
                         onClick={() => deleteTodo(todo.id)}
-                        className="px-3 py-1 bg-red-500 text-white rounded text-sm hover:bg-red-600"
+                        className="px-3 py-1 cursor-pointer bg-red-500 text-white rounded text-sm hover:bg-red-600"
                       >
                         ✕
                       </button>
