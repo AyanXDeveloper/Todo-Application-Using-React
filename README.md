@@ -49,3 +49,6 @@ It’s a simple project, but it helped me understand how React behaves in real s
 
 ```bash
 git clone https://github.com/AyanXDeveloper/Todo-Application-Using-React.git
+$ exit
+
+2. Navigate into the project folder
